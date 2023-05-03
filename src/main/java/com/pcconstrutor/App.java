@@ -1,6 +1,7 @@
 package com.pcconstrutor;
 
 import com.pcconstrutor.dao.UsuarioDAO;
+import com.pcconstrutor.exception.EstadoDeObjetoObsoletoException;
 import com.pcconstrutor.exception.UsuarioNaoEncontradoException;
 import com.pcconstrutor.model.Usuario;
 import com.pcconstrutor.util.FabricaDeDAOs;
@@ -21,8 +22,7 @@ public class App {
         boolean loop = true;
         while (loop) {
             System.out.println("""
-            MENU
-            
+            \nMENU
             1. Criar usuário
             2. Alterar usuário
             3. Remover usuário
@@ -54,11 +54,7 @@ public class App {
                         break;
                     }
 
-                    System.out.printf("""
-                    \nID = %d
-                    Nome = %s
-                    Email = %s
-                    """, umUsuario.getId(), umUsuario.getNome(), umUsuario.getEmail());
+                    System.out.println(umUsuario);
 
                     System.out.println("""
                     \nO que você deseja alterar?
@@ -69,38 +65,33 @@ public class App {
 
                     int opcaoAlteracao = Console.readInt("\nDigite um número de 1 a 3:");
 
-                    switch (opcaoAlteracao) {
-                        case 1 -> {
-                            String novoNome = Console.readLine("Novo nome: ");
-                            umUsuario.setNome(novoNome);
-                            try {
+                    try {
+                        switch (opcaoAlteracao) {
+                            case 1 -> {
+                                String novoNome = Console.readLine("Novo nome: ");
+                                umUsuario.setNome(novoNome);
                                 usuarioDAO.altera(umUsuario);
                                 System.out.println("\nNome alterado!");
-                            } catch (UsuarioNaoEncontradoException e) {
-                                System.out.println('\n' + e.getMessage());
                             }
-                        }
-                        case 2 -> {
-                            String novoEmail = Console.readLine("Novo email: ");
-                            umUsuario.setEmail(novoEmail);
-                            try {
+                            case 2 -> {
+                                String novoEmail = Console.readLine("Novo email: ");
+                                umUsuario.setEmail(novoEmail);
                                 usuarioDAO.altera(umUsuario);
                                 System.out.println("\nEmail alterado!");
-                            } catch (UsuarioNaoEncontradoException e) {
-                                System.out.println('\n' + e.getMessage());
                             }
-                        }
-                        case 3 -> {
-                            String novaSenha = Console.readLine("Nova senha: ");
-                            umUsuario.setEmail(novaSenha);
-                            try {
+                            case 3 -> {
+                                String novaSenha = Console.readLine("Nova senha: ");
+                                umUsuario.setEmail(novaSenha);
                                 usuarioDAO.altera(umUsuario);
                                 System.out.println("\nSenha alterada!");
-                            } catch (UsuarioNaoEncontradoException e) {
-                                System.out.println('\n' + e.getMessage());
                             }
+                            default -> System.out.println("\nOpção inválida!");
                         }
-                        default -> System.out.println("\nOpção inválida!");
+                    } catch (UsuarioNaoEncontradoException e) {
+                        System.out.println('\n' + e.getMessage());
+                    } catch (EstadoDeObjetoObsoletoException e) {
+                        System.out.println("A operação não foi efetuada: os dados que você tentou salvar " +
+                                "foram modificados por outro usuário.");
                     }
 
                 }

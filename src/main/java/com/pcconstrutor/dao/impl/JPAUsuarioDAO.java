@@ -1,13 +1,13 @@
 package com.pcconstrutor.dao.impl;
 
 import com.pcconstrutor.dao.UsuarioDAO;
+import com.pcconstrutor.exception.EstadoDeObjetoObsoletoException;
 import com.pcconstrutor.exception.UsuarioNaoEncontradoException;
 import com.pcconstrutor.model.Usuario;
 import com.pcconstrutor.util.FabricaDeEntityManager;
+import org.hibernate.annotations.OptimisticLock;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.LockModeType;
+import javax.persistence.*;
 import java.util.List;
 
 
@@ -39,7 +39,7 @@ public class JPAUsuarioDAO implements UsuarioDAO {
         }
     }
 
-    public void altera(Usuario umUsuario) throws UsuarioNaoEncontradoException {
+    public void altera(Usuario umUsuario) throws UsuarioNaoEncontradoException, EstadoDeObjetoObsoletoException {
         EntityManager em = null;
         EntityTransaction tx = null;
         Usuario usuario = null;
@@ -59,6 +59,13 @@ public class JPAUsuarioDAO implements UsuarioDAO {
             em.merge(umUsuario);
 
             tx.commit();
+        } catch (OptimisticLockException e) {
+            if (tx != null) {
+                try {
+                    tx.rollback();
+                } catch (RuntimeException ignore) {}
+            }
+            throw new EstadoDeObjetoObsoletoException();
         } catch (RuntimeException e) {
             if (tx != null) {
                 try {
@@ -107,14 +114,11 @@ public class JPAUsuarioDAO implements UsuarioDAO {
             em = FabricaDeEntityManager.criarEntityManager();
 
 
-            Usuario umUsuario = (Usuario) em.createQuery("SELECT u FROM Usuario u WHERE u.email = '" + email + '\'').getSingleResult();
-
-            if (umUsuario == null) {
-                throw new UsuarioNaoEncontradoException();
-            }
-
-            return umUsuario;
-        } finally {
+            return (Usuario) em.createQuery("SELECT u FROM Usuario u WHERE u.email = '" + email + '\'').getSingleResult();
+        } catch (NoResultException e) {
+            throw new UsuarioNaoEncontradoException();
+        }
+        finally {
             if (em != null) {
                 em.close();
             }

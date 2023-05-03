@@ -14,6 +14,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
+    private Integer versao;
 
     public Usuario() {}
 
@@ -30,8 +31,9 @@ public class Usuario {
             id = %d
             nome = %s
             email = %s
+            versao = %d
         }
-        """, this.id, this.nome, this.email);
+        """, this.id, this.nome, this.email, this.versao);
     }
 
     @Id
@@ -57,6 +59,11 @@ public class Usuario {
         return this.senha;
     }
 
+    @Version
+    public Integer getVersao() {
+        return this.versao;
+    }
+
     @SuppressWarnings("unused")
     private void setId(Long id) {
         this.id = id;
@@ -72,6 +79,10 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public void setVersao(Integer versao) {
+        this.versao = versao;
     }
 
     @Transient
