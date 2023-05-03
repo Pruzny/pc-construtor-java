@@ -1,9 +1,14 @@
 package com.pcconstrutor.model;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
 @Table
+@DynamicInsert
+@DynamicUpdate
 public class Usuario {
     private Long id;
     private String nome;
@@ -20,11 +25,13 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return String.format("""
+        Usuário {
+            id = %d
+            nome = %s
+            email = %s
+        }
+        """, this.id, this.nome, this.email);
     }
 
     @Id
