@@ -1,18 +1,19 @@
 package com.pcconstrutor.dao.impl;
 
-import com.pcconstrutor.dao.UsuarioDAO;
+import com.pcconstrutor.dao.MontagemDAO;
 import com.pcconstrutor.exception.EstadoDeObjetoObsoletoException;
-import com.pcconstrutor.exception.UsuarioNaoEncontradoException;
-import com.pcconstrutor.model.Usuario;
+import com.pcconstrutor.exception.MontagemNaoEncontradaException;
+import com.pcconstrutor.model.Montagem;
 import com.pcconstrutor.util.FabricaDeEntityManager;
-import org.hibernate.annotations.OptimisticLock;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.LockModeType;
+import javax.persistence.OptimisticLockException;
 import java.util.List;
 
-
-public class JPAUsuarioDAO implements UsuarioDAO {
-    public void inclui(Usuario umUsuario) {
+public class MontagemDAOImpl implements MontagemDAO {
+    public void inclui(Montagem umaMontagem) {
         EntityManager em = null;
         EntityTransaction tx = null;
 
@@ -21,7 +22,7 @@ public class JPAUsuarioDAO implements UsuarioDAO {
             tx = em.getTransaction();
             tx.begin();
 
-            em.persist(umUsuario);
+            em.persist(umaMontagem);
 
             tx.commit();
 
@@ -39,31 +40,31 @@ public class JPAUsuarioDAO implements UsuarioDAO {
         }
     }
 
-    public void altera(Usuario umUsuario) throws UsuarioNaoEncontradoException, EstadoDeObjetoObsoletoException {
+    public void altera(Montagem umaMontagem) throws MontagemNaoEncontradaException, EstadoDeObjetoObsoletoException {
         EntityManager em = null;
         EntityTransaction tx = null;
-        Usuario usuario = null;
 
         try {
             em = FabricaDeEntityManager.criarEntityManager();
             tx = em.getTransaction();
             tx.begin();
 
-            usuario = em.find(Usuario.class, umUsuario.getId(), LockModeType.PESSIMISTIC_WRITE);
+            Montagem montagem = em.find(Montagem.class, umaMontagem.getId(), LockModeType.PESSIMISTIC_WRITE);
 
-            if (usuario == null) {
+            if (montagem == null) {
                 tx.rollback();
-                throw new UsuarioNaoEncontradoException();
+                throw new MontagemNaoEncontradaException();
             }
 
-            em.merge(umUsuario);
+            em.merge(umaMontagem);
 
             tx.commit();
+
         } catch (OptimisticLockException e) {
             if (tx != null) {
                 try {
                     tx.rollback();
-                } catch (RuntimeException ignore) {}
+                } catch (RuntimeException ignored) {}
             }
             throw new EstadoDeObjetoObsoletoException();
         } catch (RuntimeException e) {
@@ -72,10 +73,14 @@ public class JPAUsuarioDAO implements UsuarioDAO {
                     tx.rollback();
                 } catch (RuntimeException ignore) {}
             }
+        } finally {
+            if (em != null) {
+                em.close();
+            }
         }
     }
 
-    public void exclui(Long id) throws UsuarioNaoEncontradoException {
+    public void exclui(Long id) throws MontagemNaoEncontradaException {
         EntityManager em = null;
         EntityTransaction tx = null;
 
@@ -84,20 +89,22 @@ public class JPAUsuarioDAO implements UsuarioDAO {
             tx = em.getTransaction();
             tx.begin();
 
-            Usuario usuario = em.find(Usuario.class, id, LockModeType.PESSIMISTIC_WRITE);
+            Montagem montagem = em.find(Montagem.class, id, LockModeType.PESSIMISTIC_WRITE);
 
-            if (usuario == null) {
+            if (montagem == null) {
                 tx.rollback();
-                throw new UsuarioNaoEncontradoException();
+                throw new MontagemNaoEncontradaException();
             }
 
-            em.remove(usuario);
+            em.remove(montagem);
+
             tx.commit();
+
         } catch (RuntimeException e) {
             if (tx != null) {
                 try {
                     tx.rollback();
-                } catch (RuntimeException ignore) {}
+                } catch (RuntimeException ignored) {}
             }
             throw e;
         } finally {
@@ -107,34 +114,35 @@ public class JPAUsuarioDAO implements UsuarioDAO {
         }
     }
 
-    public Usuario recuperaUmUsuario(String email) throws UsuarioNaoEncontradoException {
+    public Montagem recuperaUmaMontagem(Long id) throws MontagemNaoEncontradaException {
         EntityManager em = null;
 
         try {
             em = FabricaDeEntityManager.criarEntityManager();
 
+            Montagem montagem = em.find(Montagem.class, id);
 
-            return (Usuario) em.createQuery("SELECT u FROM Usuario u WHERE u.email = '" + email + '\'').getSingleResult();
-        } catch (NoResultException e) {
-            throw new UsuarioNaoEncontradoException();
-        }
-        finally {
+            if (montagem == null) {
+                throw new MontagemNaoEncontradaException();
+            }
+
+            return montagem;
+
+        } finally {
             if (em != null) {
                 em.close();
             }
         }
     }
 
-    public List<Usuario> recuperaUsuarios() {
+    public List<Montagem> recuperaMontagens() {
         EntityManager em = null;
 
         try {
             em = FabricaDeEntityManager.criarEntityManager();
 
-            @SuppressWarnings("unchecked")
-            List<Usuario> usuarios = em.createQuery("SELECT u FROM Usuario u order by u.id").getResultList();
+            return em.createQuery("SELECT m FROM Montagem m", Montagem.class).getResultList();
 
-            return usuarios;
         } finally {
             if (em != null) {
                 em.close();
