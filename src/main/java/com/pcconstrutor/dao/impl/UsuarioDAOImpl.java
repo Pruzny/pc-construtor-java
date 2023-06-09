@@ -5,13 +5,12 @@ import com.pcconstrutor.exception.EstadoDeObjetoObsoletoException;
 import com.pcconstrutor.exception.UsuarioNaoEncontradoException;
 import com.pcconstrutor.model.Usuario;
 import com.pcconstrutor.util.FabricaDeEntityManager;
-import org.hibernate.annotations.OptimisticLock;
 
 import javax.persistence.*;
 import java.util.List;
 
 
-public class JPAUsuarioDAO implements UsuarioDAO {
+public class UsuarioDAOImpl implements UsuarioDAO {
     public void inclui(Usuario umUsuario) {
         EntityManager em = null;
         EntityTransaction tx = null;
