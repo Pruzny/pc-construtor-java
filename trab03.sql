@@ -1,0 +1,33 @@
+DROP TABLE IF EXISTS trab03.movimento;
+DROP TABLE IF EXISTS trab03.conta;
+
+CREATE TABLE trab03.conta (
+  id INT NOT NULL AUTO_INCREMENT,
+  saldo DECIMAL(8, 2) NOT NULL,
+  data_cadastro DATE NOT NULL,
+  PRIMARY KEY (id)
+)
+ENGINE = INNODB
+CHARACTER SET utf8mb4;
+
+CREATE TABLE trab03.movimento (
+  id                INT NOT NULL AUTO_INCREMENT,
+  valor             DECIMAL(10, 2) NOT NULL,
+  data_criacao      DATE NOT NULL,
+  conta_id          INT NOT NULL,
+  tipo              CHAR(1) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT MOVIMENTO_CONTA_FK 
+  FOREIGN KEY (conta_id)
+  REFERENCES trab03.conta(id) 
+  ON DELETE NO ACTION ON UPDATE RESTRICT
+)
+ENGINE = INNODB
+CHARACTER SET utf8mb4;
+
+INSERT INTO trab03.conta(SALDO, DATA_CADASTRO)
+VALUES(3000, curdate());
+
+INSERT INTO trab03.conta(SALDO, DATA_CADASTRO)
+VALUES(5000, curdate());
+
