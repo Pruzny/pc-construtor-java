@@ -1,9 +1,12 @@
 package dao.controle;
 
 import anotacao.Autowired;
+import anotacao.PersistenceContext;
+import em.controle.FabricaDeEntityManager;
 import net.sf.cglib.proxy.Enhancer;
 import org.reflections.Reflections;
 import servico.controle.InterceptadorDeServico;
+import servico.controle.JPAUtil;
 
 import java.lang.reflect.Field;
 import java.util.MissingResourceException;
@@ -24,6 +27,20 @@ public class FabricaDeDAOs {
 
 		Class<?> classe = classes.iterator().next();
 
-		return (T) Enhancer.create(classe, new InterceptadorDeDAO());
+		T DAO = (T) Enhancer.create(classe, new InterceptadorDeDAO());
+
+		Field[] campos = classe.getDeclaredFields();
+		for (Field campo : campos) {
+			if (campo.isAnnotationPresent(PersistenceContext.class)) {
+				campo.setAccessible(true);
+				try {
+					campo.set(DAO, FabricaDeEntityManager.getEntityManager());
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+
+		return DAO;
 	}
 }
