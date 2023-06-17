@@ -34,6 +34,11 @@ public class Composicao {
     // Fetch lazy só carrega quando precisa
     // Cascade remove remove a composição se a peça é deletada
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinTable(
+            name = "composicao_peca",
+            joinColumns = @JoinColumn(name = "composicao_id"),
+            inverseJoinColumns = @JoinColumn(name = "peca_id")
+    )
     @Column
     public List<Peca> getItens() {
         return this.itens;
