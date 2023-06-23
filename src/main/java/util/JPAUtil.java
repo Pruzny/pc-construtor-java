@@ -11,6 +11,7 @@ public class JPAUtil {
 	private static EntityManagerFactory emf;
 	private static final ThreadLocal<EntityManager> threadEntityManager = new ThreadLocal<EntityManager>();
 	private static final ThreadLocal<EntityTransaction> threadTransaction = new ThreadLocal<EntityTransaction>();
+
 	private static final ThreadLocal<Integer> commitCounter = new ThreadLocal<Integer>() {
 		public Integer initialValue() {
 			return 0;
@@ -67,22 +68,16 @@ public class JPAUtil {
 		Integer count = commitCounter.get();
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Entrou em commitTransaction");
 		try {
-			System.out.println(1);
 			if (tx != null && tx.isActive()) {
-				System.out.println(2);
 				if (count - 1 == 0) {
-					System.out.println(3);
 					tx.commit();
-					System.out.println(4);
 					threadTransaction.set(null);
 					System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Comitou transacao");
 				}
-				System.out.println(5);
 			}
 		} catch (RuntimeException ex) {
 			System.out.println(6);
 			try {
-				System.out.println(7);
 				rollbackTransaction();
 			} catch (RuntimeException e) {
 			}
