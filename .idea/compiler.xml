@@ -6,8 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="pcconstrutor" />
+        <module name="Exercicio05-AppService-JPAUtil-DAO" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="pcconstrutor" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
