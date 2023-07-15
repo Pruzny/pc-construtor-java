@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd"
+>
+
+    <bean id="usuarioAppService" class="servico.impl.UsuarioAppServiceImpl"/>
+    <bean id="montagemAppService" class="servico.impl.MontagemAppServiceImpl"/>
+
+    <context:component-scan base-package="dao.controle"/>
+
+<!--    Responsável por injetar EntityManager diferente usando um bean   -->
+    <context:annotation-config/>
+
+<!--  Indica que nas classes de serviço os métodos anotados com @Transactional são transacionais  -->
+    <tx:annotation-driven/>
+
+<!--  Classe responsável pelo controle de transação  -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="trab"/>
+        <property name="packagesToScan" value="modelo"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true"/>
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+            </bean>
+        </property>
+    </bean>
+
+<!--  Declaração do banco de dados  -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/trab05?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=America/Sao_Paulo"/>
+        <property name="username" value="max"/>
+        <property name="password" value="pass"/>
+    </bean>
+
+<!--  Útil para mapear as exceções do projeto com as do Spring  -->
+    <bean id="persistenceExceptionTranslationPostProcessor" class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+</beans>
