@@ -40,7 +40,7 @@ public class UsuarioController {
         return usuarioService.atualiza(usuario);
     }
 
-                                   // http://localhost:8080/produtos/1
+    // http://localhost:8080/produtos/1
     @DeleteMapping("{idUsuario}")
     public void remover(@PathVariable("idUsuario") Long id) {
         usuarioService.remover(id);
@@ -49,6 +49,14 @@ public class UsuarioController {
     @PostMapping("remover")
     public Usuario remover(@RequestBody Usuario usuario) {
         return usuarioService.remover(usuario);
+    }
+
+    @GetMapping("login")        // http://localhost:8080/usuarios/login?email=aaa&senha=bbb
+    public List<Usuario> login(@RequestParam("email") String email, @RequestParam("senha") String senha) {
+        if (email == null || email.isEmpty() || senha == null || senha.isEmpty()) {
+            return null;
+        }
+        return usuarioService.login(email, senha);
     }
 
     @GetMapping("paginacao")   // http://localhost:8080/usuarios/paginacao?pagina=0&tamanho=5

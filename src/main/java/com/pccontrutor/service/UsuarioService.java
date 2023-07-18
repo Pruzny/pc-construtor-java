@@ -51,9 +51,11 @@ public class UsuarioService {
         return outroProduto;
     }
 
+    public List<Usuario> login(String email, String senha) {
+        return usuarioRepository.login(email, senha);
+    }
+
     public Page<Usuario> getPaginados(String nome, Pageable pageable) {
         return usuarioRepository.getPaginado(nome, pageable);
     }
-
-
 }

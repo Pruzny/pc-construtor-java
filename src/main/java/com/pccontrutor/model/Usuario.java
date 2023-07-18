@@ -18,6 +18,9 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@Table(name = "usuarios", uniqueConstraints = {
+        @UniqueConstraint(name = "UniqueEmail", columnNames = "email")
+})
 public class Usuario {
 
     @Id

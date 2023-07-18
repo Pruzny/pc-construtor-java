@@ -21,6 +21,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query("select u from Usuario u left join fetch u.montagens where u.id = :id")
     List<Usuario> getComMontagens();
 
+    @Query("select u from Usuario u where u.email = :email and u.senha = :senha")
+    List<Usuario> login(@Param("email") String email, @Param("senha") String senha);
+
     @Query(
             value = "select u from Usuario u where u.nome like %:nome% order by u.id desc",
             countQuery = "select count(u) from Usuario u where u.nome like %:nome%"
