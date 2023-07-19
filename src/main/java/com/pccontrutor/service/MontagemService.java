@@ -49,7 +49,7 @@ public class MontagemService {
         return outraMontagem;
     }
 
-    public Page<Montagem> getPaginadas(String nome, Pageable pageable) {
-        return montagemRepository.getPaginada(nome, pageable);
+    public Page<Montagem> getPaginadas(String nome, Long usuarioId, Pageable pageable) {
+        return montagemRepository.getPaginada(nome, usuarioId, pageable);
     }
 }

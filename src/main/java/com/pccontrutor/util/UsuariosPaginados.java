@@ -12,8 +12,8 @@ import java.util.List;
 @ToString
 public class UsuariosPaginados {
     // Dá pra fazer página genérica?
-    private long totalDeUsuarios;
+    private long totalDeItens;
     private int totalDePaginas;
     private int paginaCorrente;
-    private List<Usuario> usuarios;
+    private List<Usuario> itens;
 }

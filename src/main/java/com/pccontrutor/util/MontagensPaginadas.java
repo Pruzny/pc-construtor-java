@@ -12,8 +12,8 @@ import java.util.List;
 @ToString
 public class MontagensPaginadas {
     // Dá pra fazer página genérica?
-    private long totalDeMontagens;
+    private long totalDeItens;
     private int totalDePaginas;
     private int paginaCorrente;
-    private List<Montagem> montagens;
+    private List<Montagem> itens;
 }

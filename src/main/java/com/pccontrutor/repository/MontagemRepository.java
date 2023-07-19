@@ -24,8 +24,8 @@ public interface MontagemRepository extends JpaRepository<Montagem, Long> {
     List<Montagem> getPorUsuario(@Param("email") String email);
 
     @Query(
-        value = "select m from Montagem m where m.nome like %:nome% order by m.id desc",
+        value = "select m from Montagem m where m.nome like %:nome% and m.usuario.id = :usuarioId order by m.id desc",
         countQuery = "select count(m) from Montagem m where m.nome like %:nome%"
     )
-    Page<Montagem> getPaginada(String nome, Pageable pageable);
+    Page<Montagem> getPaginada(String nome, Long usuarioId, Pageable pageable);
 }

@@ -12,8 +12,8 @@ import java.util.List;
 @ToString
 public class PecasPaginadas {
     // Dá pra fazer página genérica?
-    private long totalDePecas;
+    private long totalDeItens;
     private int totalDePaginas;
     private int paginaCorrente;
-    private List<Peca> pecas;
+    private List<Peca> itens;
 }

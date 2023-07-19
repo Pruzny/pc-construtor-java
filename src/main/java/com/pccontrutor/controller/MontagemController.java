@@ -66,10 +66,11 @@ public class MontagemController {
     public MontagensPaginadas getPaginadas(
             @RequestParam(name="pagina", defaultValue = "0") int pagina,
             @RequestParam(name="tamanho", defaultValue = "5") int tamanho,
-            @RequestParam(name="nome", defaultValue = "") String nome
+            @RequestParam(name="nome", defaultValue = "") String nome,
+            @RequestParam(name="usuarioId", defaultValue = "0") Long usuarioId
     ) {
         Pageable pageable = PageRequest.of(pagina, tamanho);
-        Page<Montagem> paginaDeMontagem = montagemService.getPaginadas(nome, pageable);
+        Page<Montagem> paginaDeMontagem = montagemService.getPaginadas(nome, usuarioId, pageable);
         return new MontagensPaginadas(
                 paginaDeMontagem.getTotalElements(),
                 paginaDeMontagem.getTotalPages(),
