@@ -25,7 +25,7 @@ public interface MontagemRepository extends JpaRepository<Montagem, Long> {
 
     @Query(
         value = "select m from Montagem m where m.nome like %:nome% and m.usuario.id = :usuarioId order by m.id desc",
-        countQuery = "select count(m) from Montagem m where m.nome like %:nome%"
+        countQuery = "select count(m) from Montagem m where m.nome like %:nome% and m.usuario.id = :usuarioId"
     )
     Page<Montagem> getPaginada(String nome, Long usuarioId, Pageable pageable);
 }
