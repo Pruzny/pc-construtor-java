@@ -92,17 +92,17 @@ public class RestfulApp implements CommandLineRunner {
 		pecaRepository.save(peca6);
 
 		Peca peca7 = new Peca(
-			"Vengeance LPX 32GB",
-			"Corsair",
-			BigDecimal.valueOf(539.99),
+			"Z 16GB",
+			"Rise Mode",
+			BigDecimal.valueOf(209.99),
 			"ram",
-			"2x16GB, DDR4, 3600MHz, C18, Preto",
-			"https://images.kabum.com.br/produtos/fotos/110827/memoria-corsair-vengeance-lpx-32gb-2x16gb-3600mhz-ddr4-c18-black-cmk32gx4m2d3600c18_1590062064_g.jpg"
+			"1x16GB, DDR4, 3200MHz, C16, Branca",
+			"https://images.kabum.com.br/produtos/fotos/383895/memoria-ram-rise-mode-z-16gb-3200mhz-ddr4-cl15-branco-rm-d4-16g-3200zw_1667509468_gg.jpg"
 		);
 		pecaRepository.save(peca7);
 
 		Peca peca8 = new Peca(
-			"ISENGARD 360mm",
+			"ISENGARD 360mm White",
 			"SuperFrame",
 			BigDecimal.valueOf(359),
 			"cooler-cpu",
@@ -121,16 +121,86 @@ public class RestfulApp implements CommandLineRunner {
 		);
 		pecaRepository.save(peca9);
 
+		Peca peca10 = new Peca(
+			"Hércules",
+			"SuperFrame",
+			BigDecimal.valueOf(319.90),
+			"gabinete",
+			"ATX, até 10 fans, 2 usb 2.0, 2 usb 3.0, 1 HD Audio",
+			"https://img.terabyteshop.com.br/produto/g/gabinete-gamer-superframe-hercules-full-tower-rgb-vidro-temperado-e-atx-black-sem-fonte-sem-fan_154018.jpg"
+		);
+		pecaRepository.save(peca10);
+
+		Peca peca11 = new Peca(
+			"AIR 100 Lite",
+			"Montech",
+			BigDecimal.valueOf(219.90),
+			"gabinete",
+			"ATX, até 8 fans, 1 usb 2.0, 2 usb 3.0. Inclui 2 fans de 120mm",
+			"https://img.terabyteshop.com.br/produto/g/gabinete-gamer-montech-air-100-lite-mini-tower-vidro-temperado-black-e-atx-sem-fonte-com-4-fans_124958.png"
+		);
+		pecaRepository.save(peca11);
+
+		Peca peca12 = new Peca(
+			"x3 MESH",
+			"Montech",
+			BigDecimal.valueOf(269.90),
+			"gabinete",
+			"ATX, até 6 fans,  2 usb 2.0, 1 usb 3.0. Inclui 6 fans de 120mm",
+			"https://img.terabyteshop.com.br/produto/g/gabinete-gamer-montech-x3-mesh-mid-tower-black-atx_125025.png"
+		);
+		pecaRepository.save(peca12);
+
+		Peca peca13 = new Peca(
+				"Kit 3x SickeFlow 120 ARGB",
+				"Cooler Master",
+				BigDecimal.valueOf(209.90),
+				"fan",
+				"ARGB, 120mm, 3 fans, MTTF 160.000 horas, 4 pinos, 4 parafusos 1 cabo de alimentação, 1 cabo de conexão1 manual",
+				"https://media.pichau.com.br/media/catalog/product/cache/2f958555330323e505eba7ce930bdf27/m/f/mfx-b2dn-183pa-r1.jpg"
+		);
+		pecaRepository.save(peca13);
+
+		Peca peca14 = new Peca(
+				"RTX 4070 EX Gamer",
+				"Nvidia, Galax",
+				BigDecimal.valueOf(4148.99),
+				"gpu",
+				"12GB, GDDR6X, DLSS, Ray Tracing, Preto, ARGB",
+				"https://images.kabum.com.br/produtos/fotos/447518/placa-de-video-rtx-4070-ex-gamer-galax-nvidia-geforce-12-gb-gddr6x-dlss-ray-tracing-preto-47nom7md7jeg_1681385526_gg.jpg"
+		);
+		pecaRepository.save(peca14);
+
+		Peca peca15 = new Peca(
+				"Vengeance LPX 32GB",
+				"Corsair",
+				BigDecimal.valueOf(539.99),
+				"ram",
+				"2x16GB, DDR4, 3600MHz, C18, Preto",
+				"https://images.kabum.com.br/produtos/fotos/110827/memoria-corsair-vengeance-lpx-32gb-2x16gb-3600mhz-ddr4-c18-black-cmk32gx4m2d3600c18_1590062064_g.jpg"
+		);
+		pecaRepository.save(peca15);
+
+		Peca peca16 = new Peca(
+				"DC240 Black",
+				"Aigo",
+				BigDecimal.valueOf(289.90),
+				"cooler-cpu",
+				"Water Cooler, ARGB, 240mm, Preto, Intel-AMD, 1200/115X/1366/2011/2066/AM4/AM3+/AM3/AM2+/AM2/FM2+/FM2/FM1",
+				"https://media.pichau.com.br/media/catalog/product/cache/2f958555330323e505eba7ce930bdf27/d/c/dc240bk.jpg"
+		);
+		pecaRepository.save(peca16);
+
 		Usuario usuario1 = new Usuario(
 			"max",
-			"max@email",
+			"max@id.uff",
 			"123"
 		);
 		usuarioRepository.save(usuario1);
 
 		Usuario usuario2 = new Usuario(
 			"carlos",
-			"carlos@uff",
+			"carlos@ic.uff",
 			"456"
 		);
 		usuarioRepository.save(usuario2);
@@ -223,45 +293,45 @@ public class RestfulApp implements CommandLineRunner {
 		montagem = new Montagem(
 				"Meu PC 2",
 				usuario1,
-				peca3,
+				peca10,
 				peca5,
 				peca1,
 				peca2,
-				peca4,
+				peca14,
 				peca6,
-				peca7,
-				peca8,
-				peca9
+				peca15,
+				peca16,
+				peca13
 		);
 		montagemRepository.save(montagem);
 
 		montagem = new Montagem(
 				"Meu PC 3",
 				usuario1,
-				peca3,
+				peca11,
 				peca5,
 				peca1,
 				peca2,
-				peca4,
+				peca14,
 				peca6,
-				peca7,
-				peca8,
-				peca9
+				peca15,
+				peca16,
+				peca13
 		);
 		montagemRepository.save(montagem);
 
 		montagem = new Montagem(
 				"Meu PC 4",
 				usuario1,
-				peca3,
+				peca12,
 				peca5,
 				peca1,
 				peca2,
-				peca4,
+				peca14,
 				peca6,
-				peca7,
-				peca8,
-				peca9
+				peca15,
+				peca16,
+				peca13
 		);
 		montagemRepository.save(montagem);
 
